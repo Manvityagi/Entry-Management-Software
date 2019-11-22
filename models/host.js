@@ -2,8 +2,6 @@ const mongoose = require("mongoose"),
   Schema = mongoose.Schema,
   ObjectId = Schema.Types.ObjectId;
 
-import { isEmail } from "validator";
-
 const hostSchema = new Schema(
   {
     name: {
@@ -17,12 +15,14 @@ const hostSchema = new Schema(
     email: {
       type: String,
       required: true,
-      validate: [isEmail, "invalid email"]
     },
-    address_visited: {
+    address: {
       type: String,
       required: true
     },
+    visitor_count: {
+        type: Number,
+    }
   },
   { timestamps: true }
 );

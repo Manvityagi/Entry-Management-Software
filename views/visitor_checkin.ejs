@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Entry Management</title>
+    <title>Visitor Check-In</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/landing.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
@@ -14,7 +14,7 @@
         <div class="row">
              <h1 style="text-align: center">Visit as a guest</h1>
              <div style="width: 30%; margin: 25px auto;">
-                 <form action="/host" method="POST">
+                 <form action="/visitor/checkin" method="POST">
                      <div class="form-group">
                           <label for="name">Name</label>
                           <input class="form-control" type="text" name="name" placeholder="Rahul Raj">
@@ -34,13 +34,9 @@
                          <label for="location">Address</label>
                          <input class="form-control" type="text" name="location" id="location" placeholder="Yosemite, CA">
                      </div>
-                         
-                      <div class="form-group">
-                         <button class="btn btn-lg btn-primary">Check-In!</button>
-                     </div>
 
                      <div class="form-group">
-                        <button class="btn btn-lg btn-primary">Check-Out!</button>
+                        <button class="btn btn-lg btn-primary btn-block">Check-In!</button>
                     </div>
 
                  </form>  

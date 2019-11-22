@@ -9,7 +9,7 @@ const express = require("express"),
 // });
 
 db = mongoose.connect(
-  "mongodb+srv://manvi:Abcd123%40%23@cluster0-zpztw.mongodb.net/test?retryWrites=true&w=majority",
+  "mongodb+srv://manvi:abcd@cluster0-zpztw.mongodb.net/test?retryWrites=true&w=majority",
   { useNewUrlParser: true, useUnifiedTopology: true },
   err => {
     if (err) console.log(err);

@@ -2,8 +2,6 @@ const mongoose = require("mongoose"),
   Schema = mongoose.Schema,
   ObjectId = Schema.Types.ObjectId;
 
-import { isEmail } from "validator";
-
 const visitorSchema = new Schema(
   {
     name: {
@@ -16,7 +14,6 @@ const visitorSchema = new Schema(
     },
     email: {
       type: String,
-      validate: [isEmail, "invalid email"]
     },
     address_visited: {
       type: String,
