@@ -15,7 +15,7 @@ const visitorSchema = new Schema(
     email: {
       type: String,
     },
-    address_visited: {
+    address: {
       type: String,
       required: true
     },
@@ -24,11 +24,12 @@ const visitorSchema = new Schema(
     },
     check_out_time: {
       type: Date,
-      required: true,
     },
     host_alloted: {
-        type: ObjectId,
-        ref: "Visitor",
+        // type: ObjectId,
+        // ref: "Visitor",
+        type: String,
+        default: "",
     }
   },
   { timestamps: true }
