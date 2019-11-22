@@ -3,7 +3,10 @@ const express = require("express"),
   bodyParser = require("body-parser"),
   methodOverride = require("method-override");
 
-mongoose.connect('mongodb://localhost/innovacer' ,{useNewUrlParser: true});
+mongoose.connect("mongodb://localhost/innovacer", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 const app = express();
 
@@ -24,6 +27,7 @@ app.use(express.static(__dirname + "/public"));
 app.use("/", routes);
 
 const port = process.env.PORT || 5000;
+
 app.listen(port, err => {
   if (err) console.log(err);
   else console.log("App listening on port " + port);
