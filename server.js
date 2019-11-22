@@ -3,10 +3,19 @@ const express = require("express"),
   bodyParser = require("body-parser"),
   methodOverride = require("method-override");
 
-mongoose.connect("mongodb://localhost/innovacer", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+// mongoose.connect("mongodb://localhost/innovacer", {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// });
+
+db = mongoose.connect(
+  "mongodb+srv://manvi:Abcd123%40%23@cluster0-zpztw.mongodb.net/test?retryWrites=true&w=majority",
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  err => {
+    if (err) console.log(err);
+    else console.log("mongo atlas connected");
+  }
+);
 
 const app = express();
 
