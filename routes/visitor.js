@@ -1,10 +1,11 @@
 const router = require("express").Router(),
   Visitor = require("../models/visitor"),
-  Host = require("../models/host");
+  Host = require("../models/host"),
+  compare = require('../controllers/functions/utils'),
+  mail_host = require('../controllers/functions/mail'),
+  mail_visitor = require('../controllers/functions/mail');
 
-function compare(a, b) {
-  return a.vistor_count < b.visitor_count;
-}
+
 
 router.get("/checkin", async (req, res) => {
   res.render("visitor_checkin");
@@ -21,7 +22,7 @@ router.post("/checkin", (req, res) => {
     } else {
       const hosts = await Host.find();
       hosts.sort(compare);
-      
+
       //aloting the first host from array to newVisitor
       newVisitor.host_alloted = hosts[0].name;
 
@@ -31,6 +32,13 @@ router.post("/checkin", (req, res) => {
       res.redirect("/visitor/checkin");
       newVisitor.save();
       hosts[0].save();
+
+      console.log(hosts[0].email,newVisitor);
+      
+      //mail the host alloted
+      mail_host(hosts[0].email,newVisitor);
+
+      //sms the host alloted
     }
   });
 });
