@@ -14,15 +14,15 @@ const hostSchema = new Schema(
     },
     email: {
       type: String,
-      required: true,
+      required: true
     },
     address: {
       type: String,
       required: true
     },
     visitor_count: {
-        type: Number,
-        default: 0
+      type: Number,
+      default: 0
     }
   },
   { timestamps: true }
