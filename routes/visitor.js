@@ -33,8 +33,8 @@ router.post("/checkin", (req, res) => {
       newVisitor.save();
       hosts[0].save();
 
-      console.log(hosts[0].email,newVisitor);
-      
+    //   console.log(hosts[0].email,newVisitor);
+
       //mail the host alloted
       mail_host(hosts[0].email,newVisitor);
 

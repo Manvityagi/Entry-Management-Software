@@ -1,7 +1,7 @@
 "use strict";
 const nodemailer = require("nodemailer");
 
-const { user,pass } = require('../../config');
+const { user, pass } = require("../../config");
 
 // async..await is not allowed in global scope, must use a wrapper
 // async function mail_visitor(recevier, client) {   //will be used when check_out ruts will be made
@@ -27,30 +27,34 @@ const { user,pass } = require('../../config');
 // }
 // mail_visitor().catch(console.error);
 
+async function mail_host(host, visitor) {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: user,
+      pass: pass
+    }
+  });
 
-async function mail_host(host,visitor) {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: user,
-        pass: pass 
-      }
-    });
+  console.log(visitor.toObject());
 
-    const {Name, Email, Phone, Checkin_Time} = visitor.toObject();  //"these details"
+  const { name, email, phone, createdAt } = visitor.toObject(); //"these details"
 
-    const mailOptions = {
-      from: user,
-      to: host,
-      subject: "New Visitor Details",
-      text: "Name : ${Name}, Email : ${Email}, Phone : ${Phone}, Checkin_Time : ${Chekin_Time}"   
-    };
-  
-    let info = await transporter.sendMail(mailOptions);
-    console.log(info.response);
-  
-  }
-  mail_host().catch(console.error);
+  const mailOptions = {
+    from: "manvit770@gmail.com",
+    to: host,
+    subject: "New Visitor Details",
+    text: `     
+           Name : ${name},
+           Email : ${email},
+           Phone : ${phone},
+           Checkin Time : ${createdAt}`
+  };
+
+  let info = await transporter.sendMail(mailOptions);
+  // console.log(info.response);
+}
+mail_host().catch(console.error);
 
 module.exports = mail_host;
