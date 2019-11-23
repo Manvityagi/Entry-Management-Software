@@ -3,9 +3,8 @@ const router = require("express").Router(),
   Host = require("../models/host"),
   compare = require('../controllers/functions/utils'),
   mail_host = require('../controllers/functions/mail'),
-  mail_visitor = require('../controllers/functions/mail');
-
-
+  mail_visitor = require('../controllers/functions/mail'),
+  sms_host = require('../controllers/functions/sms');
 
 router.get("/checkin", async (req, res) => {
   res.render("visitor_checkin");
@@ -33,12 +32,12 @@ router.post("/checkin", (req, res) => {
       newVisitor.save();
       hosts[0].save();
 
-    //   console.log(hosts[0].email,newVisitor);
-
       //mail the host alloted
       mail_host(hosts[0].email,newVisitor);
 
       //sms the host alloted
+      const host_phone = "+91" + hosts[0].phone;
+      sms_host(host_phone,newVisitor);
     }
   });
 });

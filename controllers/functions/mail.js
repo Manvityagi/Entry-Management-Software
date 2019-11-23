@@ -1,7 +1,8 @@
 "use strict";
-const nodemailer = require("nodemailer");
+const nodemailer = require("nodemailer"),
+  moment = require("moment");
 
-const { user, pass } = require("../../config");
+const { admin_mail, admin_mail_pass } = require("../../config");
 
 // async..await is not allowed in global scope, must use a wrapper
 // async function mail_visitor(recevier, client) {   //will be used when check_out ruts will be made
@@ -32,14 +33,14 @@ async function mail_host(host, visitor) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: user,
-      pass: pass
+      user: admin_mail,
+      pass: admin_mail_pass
     }
   });
 
-  console.log(visitor.toObject());
-
   const { name, email, phone, createdAt } = visitor.toObject(); //"these details"
+
+  let formatted_date = moment(createdAt).format("LLLL");
 
   const mailOptions = {
     from: "manvit770@gmail.com",
@@ -49,7 +50,7 @@ async function mail_host(host, visitor) {
            Name : ${name},
            Email : ${email},
            Phone : ${phone},
-           Checkin Time : ${createdAt}`
+           Checkin Time : ${formatted_date}`
   };
 
   let info = await transporter.sendMail(mailOptions);
