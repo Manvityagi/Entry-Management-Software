@@ -1,6 +1,5 @@
 "use strict";
-const nodemailer = require("nodemailer"),
-  moment = require("moment");
+const nodemailer = require("nodemailer");
 
 const { admin_mail, admin_mail_pass } = require("../../config");
 
@@ -22,8 +21,10 @@ async function mail(to, msg) {
   };
 
   const info = await transporter.sendMail(mailOptions);
-  console.log(info.response);
+  // console.log(info.response);
 }
 mail().catch(console.error);
+
+
 
 module.exports = mail;

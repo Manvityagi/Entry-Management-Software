@@ -22,10 +22,11 @@ const visitorSchema = new Schema(
       required: true
     },
     check_in_time: {
-      type: Date
+      type: String
     },
     check_out_time: {
-      type: Date
+      type: String,
+      default: "Not checked out"
     },
     host_alloted: {
       type: String,

@@ -6,7 +6,7 @@ router.get("/", (req, res) => {
 });
 
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const newHost = await Host.create(req.body); 
          console.log(newHost);
