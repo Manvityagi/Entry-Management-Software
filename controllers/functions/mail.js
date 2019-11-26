@@ -21,7 +21,7 @@ async function mail(to, msg) {
     text: msg
   };
 
-  let info = await transporter.sendMail(mailOptions);
+  const info = await transporter.sendMail(mailOptions);
   console.log(info.response);
 }
 mail().catch(console.error);

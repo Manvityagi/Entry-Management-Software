@@ -10,15 +10,17 @@ const hostSchema = new Schema(
     },
     phone: {
       type: Number,
-      required: true
+      required: true,
+      unique: true,
     },
     email: {
       type: String,
-      required: true
+      required: true,
+      unique: true,
     },
     address: {
       type: String,
-      required: true
+      required: true,
     },
     visitor_count: {
       type: Number,

@@ -1,12 +1,13 @@
 const router = require("express").Router(),
-  Visitor = require("../models/visitor"),
+  moment = require("moment");
+
+const Visitor = require("../models/visitor"),
   Host = require("../models/host"),
   compare = require("../controllers/functions/utils"),
   mail = require("../controllers/functions/mail"),
-  sms = require("../controllers/functions/sms"),
-  moment = require("moment");
+  sms = require("../controllers/functions/sms");
 
-router.get("/checkin", async (req, res) => {
+router.get("/checkin", (req, res) => {
   res.render("visitor_checkin");
 });
 
@@ -45,7 +46,7 @@ router.post("/checkin", (req, res) => {
         address
       } = newVisitor;
 
-      let check_in_time = moment(createdAt).format("lll");
+      const check_in_time = moment(createdAt).format("lll");
 
       const msg = `    
     New Visitor Details
@@ -72,8 +73,8 @@ router.post("/checkout", async (req, res) => {
     if (!visitor) return res.status(404).send("The visitor did not check in");
 
     const { name, email, phone, createdAt, host_alloted, address } = visitor;
-    let check_in_time = moment(createdAt).format("lll");
-    let check_out = moment().format("LT");
+    const check_in_time = moment(createdAt).format("lll");
+    const check_out = moment().format("LT");
     visitor.check_out_time = check_out;
     visitor.save();
 
@@ -91,7 +92,7 @@ router.post("/checkout", async (req, res) => {
     mail(visitor.email, msg);
 
     //sms the visitor
-    var d = new Date();
+    const d = new Date();
     visitor.check_out_time = d.getTime();
     visitor.save();
     const visitor_phone = "+91" + visitor.phone;

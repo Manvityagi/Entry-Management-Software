@@ -10,10 +10,12 @@ const visitorSchema = new Schema(
     },
     phone: {
       type: Number,
-      required: false
+      required: false,
+      unique: true,
     },
     email: {
-      type: String
+      type: String,
+      unique: true,
     },
     address: {
       type: String,
@@ -28,6 +30,10 @@ const visitorSchema = new Schema(
     host_alloted: {
       type: String,
       default: ""
+    },
+    checked_in: {
+      type: Boolean,
+      default: false
     }
   },
   { timestamps: true }
