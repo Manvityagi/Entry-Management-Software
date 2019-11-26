@@ -3,9 +3,9 @@ const router = require("express").Router(),
   Visitor = require("../models/visitor");
 
 router.get("/", async (req,res)=>{
-    const visitors = await Visitor.find();
+    const visitors = await Visitor.find().populate("host_alloted");
     try{
-        // console.log(visitors);
+        //  console.log(visitors);
         res.render("dashboard",{visitors: visitors});
     }
     catch(err){

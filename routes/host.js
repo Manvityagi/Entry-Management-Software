@@ -9,10 +9,10 @@ router.get("/", (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const newHost = await Host.create(req.body); 
-         console.log(newHost);
+        //  console.log(newHost);
          res.redirect("/host");
    } catch(err) {
-     console.log(err);
+    //  console.log(err);
      res.status(400).send(err.message);
    }
  });

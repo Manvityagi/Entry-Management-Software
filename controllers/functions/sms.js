@@ -2,8 +2,6 @@ const moment = require("moment");
 const { twilio_sid, twilio_auth_token, admin_phone } = require("../../config");
 const client = require("twilio")(twilio_sid, twilio_auth_token);
 
-
-
 async function sms(to, msg) {
   client.messages
     .create({
@@ -12,7 +10,11 @@ async function sms(to, msg) {
       to: to
     })
     .then(message => console.log(message.sid))
-    .catch(err => console.log(err));
+    .catch(err => {
+      req.flash("error", err.message);
+      console.log(err)
+      return res.redirect('back') 
+    });
     
 }
 

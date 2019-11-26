@@ -1,12 +1,19 @@
-//DATABASE KO ABHI .ENV ME DAALNA REHTA H
-
 const express = require("express"),
   mongoose = require("mongoose"),
   bodyParser = require("body-parser"),
-  methodOverride = require("method-override");
+  methodOverride = require("method-override"),
+  cookieParser = require("cookie-parser"),
+  session = require("express-session"),
+  flash = require("connect-flash");
+
+const { db_user, db_pwd } = require("./config");
 
 db = mongoose.connect(
-  "mongodb+srv://manvi:abcd@cluster0-zpztw.mongodb.net/test?retryWrites=true&w=majority",
+  "mongodb+srv://" +
+    db_user +
+    ":" +
+    db_pwd +
+    "@cluster0-zpztw.mongodb.net/test?retryWrites=true&w=majority",
   { useNewUrlParser: true, useUnifiedTopology: true },
   err => {
     if (err) console.log(err);
@@ -28,6 +35,22 @@ app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + "/public"));
+app.use(cookieParser("secret"));
+app.use(session({
+  cookie: { maxAge: 60000 },
+  secret: 'djhxcvxfgshajfgjhgsjhfgsakjeauytsdfy',
+  resave: false,
+  saveUninitialized: true
+  }));
+app.use(flash());
+
+app.use(function(req, res, next){
+
+  //whatever we put in res.locals is whats available inside of our template
+  res.locals.error       =   req.flash("error");
+  res.locals.success     =   req.flash("success");
+  next();
+});
 
 app.use("/", routes);
 

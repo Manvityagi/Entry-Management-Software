@@ -29,8 +29,10 @@ const visitorSchema = new Schema(
       default: "Not checked out"
     },
     host_alloted: {
-      type: String,
-      default: ""
+      // type: String,
+      // default: ""
+      type: ObjectId,
+      ref: "Host"
     },
     checked_in: {
       type: Boolean,

@@ -1,52 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Visitor Check-In</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/stylesheets/landing.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
-</head>
-<body>
-    
- 
-      <div class="container">
-        <div class="row">
-             <h1 style="text-align: center">Visit as a guest</h1>
-             <div style="width: 30%; margin: 25px auto;">
-                 <form action="/visitor/checkin" method="POST">
-                     <div class="form-group">
-                          <label for="name">Name</label>
-                          <input class="form-control" type="text" name="name" placeholder="Rahul Raj">
-                     </div>
-                     
-                     <div class="form-group">
-                          <label for="email">Email</label>
-                          <input class="form-control" type="email" name="email" placeholder="abc@gmail.com" min="0.01" step="0.01">
-                     </div>
-                     
-                     <div class="form-group">
-                         <label for="phone">Phone</label>
-                         <input class="form-control" name="phone" placeholder="9999999999">
-                     </div>
-                     
-                     <div class="form-group">
-                         <label for="location">Address</label>
-                         <input class="form-control" type="text" name="address" id="address" placeholder="Yosemite, CA">
-                     </div>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="/stylesheets/landing.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
+      type="text/javascript"
+      async
+    ></script>
+  </head>
+  <body>
+    <div class="container">
+      <% if(error && error.length > 0){ %>
+      <div class="alert alert-danger">
+        <%= error %>
+      </div>
 
-                     <div class="form-group">
-                        <button class="btn btn-lg btn-primary btn-block">Check-In!</button>
-                    </div>
+      <%= success %>
+      <% } %> <% if(success && success.length > 0){ %>
+      <div class="alert alert-success">
+        <%= success %>
+      </div>
+      <% } %>
+      <div class="row">
+        <h1 style="text-align: center">Visit as a guest</h1>
+        <div style="width: 30%; margin: 25px auto;">
+          <form action="/visitor/checkin" method="POST">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input
+                class="form-control"
+                type="text"
+                name="name"
+                placeholder="Rahul Raj"
+              />
+            </div>
 
-                 </form>  
-                 <a href="/">Go back</a>
-             </div>    
-             
-       </div>
- </div>
-    
-</body>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                class="form-control"
+                type="email"
+                name="email"
+                placeholder="abc@gmail.com"
+                min="0.01"
+                step="0.01"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input
+                class="form-control"
+                name="phone"
+                placeholder="9999999999"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="location">Address</label>
+              <input
+                class="form-control"
+                type="text"
+                name="address"
+                id="address"
+                placeholder="Yosemite, CA"
+              />
+            </div>
+
+            <div class="form-group">
+              <button class="btn btn-lg btn-primary btn-block">
+                Check-In!
+              </button>
+            </div>
+          </form>
+          <a href="/">Go back</a>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

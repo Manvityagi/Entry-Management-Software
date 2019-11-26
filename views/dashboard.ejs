@@ -1,59 +1,48 @@
-
-<!-- 
-<div class="row text-center" style="display:flex; flex-wrap: wrap;margin-left:85px;"> 
-        <% visitors.forEach(function(visitor){ %>
-                <div class="col-md-4 col-sm-6">
-                    <div class="thumbnail">
-                        <div class="caption">
-                           <strong><h3><%= visitor.name %> </h3></strong>
-                           <strong><h4><%= visitor.check_in_time %> </h4></strong>
-                        </div>
-                    
-                    </div>    
-                </div>
-        <% }); %>
-    </div> -->
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Host Entry</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="/public/stylesheets/dashboard.css"> -->
-    <link href="/public/stylesheets/dashboard.css" rel="stylesheet" type="text/css">
-</head>
-    <body>
-        <h1><span class="yellow">Dashboard</pan></h1>
-            
-            <table class="container">
-                <thead>
-                    <tr>
-                        <th><h1>Visitor</h1></th>
-                        <th><h1>Phone</h1></th>
-                        <th><h1>Email</h1></th>
-                        <th><h1>Check-in Time</h1></th>
-                        <th><h1>Check-out Time</h1></th>
-                        <th><h1>Host</h1></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                            <% visitors.forEach(function(visitor){ %>
-                                <td> <%= visitor.name %> </td>
-                                <td><%= visitor.phone %></td>
-                                <td><%= visitor.email %></td>
-                                <td><%= visitor.check_in_time %></td>
-                                <td><%= visitor.check_out_time %></td>
-                                <td><%= visitor.host_alloted %></td>
-                                <% }); %>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+    />
+    <link href="/stylesheets/dashboard.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <h1 class="intro">Dashboard</h1>
 
-                    </tr>
-                </tbody>
-            </table>
-            <a href="/">Go back</a>
-    </body>
-    
-    </html>
+    <table class="container">
+      <thead>
+        <tr>
+          <th><h1>Visitor</h1></th>
+          <th><h1>Phone</h1></th>
+          <th><h1>Email</h1></th>
+          <th><h1>Check-in Time</h1></th>
+          <th><h1>Check-out Time</h1></th>
+          <th><h1>Host</h1></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% visitors.forEach(function(visitor){ %>
+        <tr>
+          <td><%= visitor.name %></td>
+          <td><%= visitor.phone %></td>
+          <td><%= visitor.email %></td>
+          <td><%= visitor.check_in_time %></td>
+          <td><%= visitor.check_out_time %></td>
+          <td><%= visitor.host_alloted.name %></td>
+          <% }); %>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+    <a
+      style=" margin-left: 10%; margin-top: 20%; padding-top: 100px;  font-size: 30px; text-align: center; "
+      href="/"
+      >Go back</a
+    >
+  </body>
+</html>
