@@ -1,7 +1,8 @@
 const router = require("express").Router(),
-  Host = require("../models/host"),
   Visitor = require("../models/visitor");
 
+
+  //visit the dashboard
 router.get("/", async (req,res)=>{
     const visitors = await Visitor.find().populate("host_alloted");
     try{

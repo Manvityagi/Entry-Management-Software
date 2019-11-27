@@ -8,6 +8,7 @@ const express = require("express"),
 
 const { db_user, db_pwd } = require("./config");
 
+//connecting the database
 db = mongoose.connect(
   "mongodb+srv://" +
     db_user +
@@ -35,6 +36,8 @@ app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + "/public"));
+
+//connect-flash setup
 app.use(cookieParser("secret"));
 app.use(session({
   cookie: { maxAge: 60000 },
@@ -56,6 +59,7 @@ app.use("/", routes);
 
 const port = process.env.PORT || 5000;
 
+//listenig to the server
 app.listen(port, err => {
   if (err) console.log(err);
   else console.log("App listening on port " + port);
