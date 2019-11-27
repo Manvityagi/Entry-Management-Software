@@ -53,10 +53,15 @@ $ node app.js
  ```
  
  ## Demo Images
+ ### Check-in Page
  ![Check-in Page](https://github.com/Manvityagi/Entry-Management-Software/raw/master/images/checkin.png)
+ ### After Check-in
  ![After Check-in](https://github.com/Manvityagi/Entry-Management-Software/raw/master/images/After_checkin.png)
+ ### Check-out Page
  ![Check-out Page](https://github.com/Manvityagi/Entry-Management-Software/raw/master/images/check_out.png)
+ ### After Check-out
  ![After Check-out](https://github.com/Manvityagi/Entry-Management-Software/raw/master/images/after_checkout.png)
+ ### Dashboard
  ![Dashboard](https://github.com/Manvityagi/Entry-Management-Software/raw/master/images/dashboard.png)
 
 
