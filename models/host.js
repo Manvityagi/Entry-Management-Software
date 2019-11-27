@@ -2,6 +2,11 @@ const mongoose = require("mongoose"),
   Schema = mongoose.Schema,
   ObjectId = Schema.Types.ObjectId;
 
+  var validatePhone = function(contact) {
+    var re = /^\d{10}$/;
+    return contact == null || re.test(contact);
+  };
+  
 const hostSchema = new Schema(
   {
     name: {
@@ -12,6 +17,7 @@ const hostSchema = new Schema(
       type: Number,
       required: true,
       unique: true,
+      validate: [validatePhone, "Please fill a valid phone number"],
     },
     email: {
       type: String,

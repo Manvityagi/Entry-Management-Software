@@ -11,6 +11,18 @@
 </head>
 <body>
       <div class="container">
+            <% if(error && error.length > 0){ %>
+                <div class="alert alert-danger">
+                  <%= error %>
+                </div>
+          
+                <%= success %>
+                <% } %> <% if(success && success.length > 0){ %>
+                <div class="alert alert-success">
+                  <%= success %>
+                </div>
+                <% } %>
+                
         <div class="row">
              <h1 style="text-align: center">Register a new host</h1>
              <div style="width: 30%; margin: 25px auto;">

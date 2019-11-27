@@ -29,7 +29,7 @@ router.post("/checkin", async (req, res) => {
       "success",
       "Welcome " +
         newVisitor.name +
-        " Your host " +
+        "! Your host " +
         hosts[0].name +
         " is waiting for you inside!"
     );
@@ -72,6 +72,7 @@ router.post("/checkout", async (req, res) => {
       email: req.body.email,
       checked_in: true
     }).populate("host_alloted");
+
     if (!visitor) {
       req.flash("error", "The visitor is not checked-in");
       return res.render("visitor_checkout");
@@ -79,8 +80,13 @@ router.post("/checkout", async (req, res) => {
 
     const check_out = moment().format("LT");
     visitor.check_out_time = check_out;
-    visitor.host_alloted.visitor_count -= 1;
     visitor.checked_in = false;
+
+
+    const host = await Host.findByIdAndUpdate(visitor.host_alloted, {new:true});
+    host.visitor_count -= 1;
+    host.save();
+
     await visitor.save();
 
     const { name, phone, host_alloted, address, check_in_time } = visitor;
@@ -101,7 +107,7 @@ router.post("/checkout", async (req, res) => {
     const visitor_phone = "+91" + visitor.phone;
 
     sms(visitor_phone, msg);
-    
+
     req.flash(
       "success",
       visitor.name + " checked out at " + visitor.check_out_time
@@ -109,6 +115,8 @@ router.post("/checkout", async (req, res) => {
 
     res.redirect("/visitor/checkout");
   } catch (err) {
+    // req.flash("error", err.message);
+    // return res.render("visitor_checkout");
     res.status(400).send(err.message);
   }
 });
