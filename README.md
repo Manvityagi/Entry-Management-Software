@@ -4,7 +4,7 @@
 **Entry Management Software** is an implementation of a multi-host, multi-visitor entry management system.
 ## 🔨  Working
   - The system is flexible to accomodate multiple hosts for multiple visitors. 
-  - The software admin can register new hosts by using the ```Register as host``` option from Home Page.
+  - The software admin can register new hosts by using the ```Register as host``` option from Home Page. It is assumed that an admin will be handling the software, so no passwords are needed by hosts to register themselves. The whole system is only accessible by Only Admin. 
   - ```Check-in as guest``` checks in the visitor & allots a host to the visitor from the the host attending the least visitors at that time. At the same time , an email and sms is sent to the host alloted for the visitor about the details of the visitor
   - ```Check-out Guest``` checks out the visitor & sends an email & sms to the visitor including relevant details
   
