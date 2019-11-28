@@ -1,21 +1,20 @@
-const moment = require("moment");
-const { twilio_sid, twilio_auth_token, admin_phone } = require("../../config");
+const { twilio_sid, twilio_auth_token, admin_phone } = require("../../config")
 const client = require("twilio")(twilio_sid, twilio_auth_token);
 
-async function sms(to, msg) {
+function sms(to, msg) {
   client.messages
     .create({
       body: msg,
       from: admin_phone,
       to: to
     })
-    .then(message => console.log(message.sid))
+    .then(message =>
+      console.log("Message successfully sent! Message SID: ", message.sid,to)
+    )
     .catch(err => {
-      req.flash("error", err.message);
-      console.log(err)
-      return res.redirect('back') 
+      // cannot redirect here because it is asynchronous
+      console.log("Message couldn't be sent. Error: ", err);
     });
-    
 }
 
 module.exports = sms;

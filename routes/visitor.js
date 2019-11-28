@@ -3,128 +3,170 @@ const router = require("express").Router(),
 
 const Visitor = require("../models/visitor"),
   Host = require("../models/host"),
-  compare = require("../controllers/functions/utils"),
-  mail = require("../controllers/functions/mail"),
-  sms = require("../controllers/functions/sms");
+  {
+    compareHostsByVisitorCount,
+    getRenderData
+  } = require("../controllers/functions/utils"),
+  sendMail = require("../controllers/functions/mail"),
+  sendSMS = require("../controllers/functions/sms");
 
-  //render the check in page
+// render the checkin page
 router.get("/checkin", (req, res) => {
-  res.render("visitor_checkin");
+  res.render("visitor_checkin", getRenderData(req));
 });
 
-//render the checkout page
+// render the checkout page
 router.get("/checkout", (req, res) => {
-  res.render("visitor_checkout");
+  res.render("visitor_checkout", getRenderData(req));
 });
 
-
-//checkin the visitor, 
+// checkin the visitor,
 router.post("/checkin", async (req, res) => {
   try {
-    const newVisitor = await Visitor.create(req.body);
+    /**
+     * get host with least visitors
+     */
     const hosts = await Host.find();
-    hosts.sort(compare);
-    //aloting the first host from array to newVisitor
-    newVisitor.host_alloted = hosts[0];
-    //also increase count of visitors for hosts[0].name by 1
-    hosts[0].visitor_count += 1;
-    newVisitor.checked_in = true;
-    req.flash(
-      "success",
-      "Welcome " +
-        newVisitor.name +
-        "! Your host " +
-        hosts[0].name +
-        " is waiting for you inside!"
-    );
+    if (hosts.length === 0) {
+      console.log("No hosts are currently available");
 
-    const { name, email, phone, createdAt, host_alloted, address } = newVisitor;
-    const check_in_time = moment(createdAt).format("lll");
-    newVisitor.check_in_time = check_in_time;
-    newVisitor.checked_in = true;
-    await newVisitor.save();
-    await hosts[0].save();
+      req.flash("error", "No hosts are currently available");
+      return res.redirect("/visitor/checkin");
+    }
+    hosts.sort(compareHostsByVisitorCount);
+    const host = hosts[0];
 
-    //message for host
+    /**
+     * check if visitor has visited before, else create new one
+     */
+    let visitor;
+    visitor = await Visitor.findOne({
+      email: req.body.email
+    });
+    if (!visitor) {
+      visitor = await Visitor.create(req.body);
+    } else {
+      if (visitor.checked_in) {
+        console.log("Visitor is already checked in");
+
+        req.flash("error", "Visitor is already checked in");
+        return res.redirect("/visitor/checkin");
+      }
+    }
+
+    /**
+     * update visitor and host
+     */
+    host.visitor_count += 1;
+    visitor.host_alloted = host.id;
+    visitor.checked_in = true;
+    visitor.check_in_time = moment(visitor.createdAt).format("lll");
+
+    await host.save();
+    await visitor.save();
+
+    /**
+     * message and email the host
+     */
     const msg = `    
      New Visitor with following details is coming to visit you:
-     Visitor Name : ${name},
-     Visitor Phone : ${phone},
-     Visitor Email : ${email},
-     Check-in Time : ${check_in_time}
+     Visitor Name : ${visitor.name},
+     Visitor Phone : ${visitor.phone},
+     Visitor Email : ${visitor.email},
+     Check-in Time : ${visitor.check_in_time}
      `;
 
-    //mail the host alloted
-    mail(hosts[0].email, msg);
+    sendMail(host.email, msg);
 
-    //sms the host alloted
-    const host_phone = "+91" + hosts[0].phone;
-    sms(host_phone, msg);
+    const hostPhone = "+91" + host.phone;
+    sendSMS(hostPhone, msg);
 
-    res.render("visitor_checkin");
+    req.flash(
+      "success",
+      `Welcome ${visitor.name}! Your host ${host.name} is waiting for you inside!`
+    );
+    res.redirect("/visitor/checkin");
   } catch (err) {
-    req.flash("error", err.message);
-    return res.render("visitor_checkin");
+    console.log(err);
+
+    req.flash("error", "Couldn't checkin visitor");
+    res.redirect("/visitor/checkin");
   }
 });
 
-
-//checking out the visitor 
+// checking out the visitor
 router.post("/checkout", async (req, res) => {
   try {
+    /**
+     * get visitor
+     */
     const visitor = await Visitor.findOne({
       email: req.body.email,
       checked_in: true
     }).populate("host_alloted");
 
     if (!visitor) {
+      console.log("The visitor cannot be found");
+
       req.flash("error", "The visitor is not checked-in");
-      return res.render("visitor_checkout");
+      return res.redirect("/visitor/checkout");
     }
 
-    const check_out = moment().format("LT");
-    visitor.check_out_time = check_out;
-    visitor.checked_in = false;
-
+    /**
+     * get host
+     */
     const host = await Host.findByIdAndUpdate(visitor.host_alloted, {
       new: true
     });
+
+    if (!host) {
+      console.log("The host cannot be found");
+
+      req.flash("error", "The host cannot be found");
+      return res.redirect("/visitor/checkout");
+    }
+
+    /**
+     * Update visitor and host
+     */
+    const checkOutTime = moment().format("LT");
+    visitor.check_out_time = checkOutTime;
+    visitor.checked_in = false;
+
     host.visitor_count -= 1;
-    host.save();
 
+    // save visitor
     await visitor.save();
+    await host.save();
 
-    const { name, phone, host_alloted, address, check_in_time } = visitor;
-
-    //message for visitor
+    /**
+     * message and email the visitor
+     */
     const msg = `    
     Thanks for visiting! Your visiting details are - 
-    Visitor Name : ${name},
-    Visitor Phone : ${phone},
-    Check-in Time : ${check_in_time},
-    Check-out Time : ${check_out},
-    Host Name : ${host_alloted.name},
-    Address Visited : ${address}
+    Visitor Name : ${visitor.name},
+    Visitor Phone : ${visitor.phone},
+    Check-in Time : ${visitor.check_in_time},
+    Check-out Time : ${visitor.check_out_time},
+    Host Name : ${visitor.host_alloted.name},
+    Address Visited : ${visitor.address}
     `;
 
-    //mail the visitor
-    mail(visitor.email, msg);
+    sendMail(visitor.email, msg);
 
-    const visitor_phone = "+91" + visitor.phone;
-
-    //sms the visitor
-    sms(visitor_phone, msg);
+    const visitorPhone = "+91" + visitor.phone;
+    sendSMS(visitorPhone, msg);
 
     req.flash(
       "success",
-      visitor.name + " checked out at " + visitor.check_out_time
+      `${visitor.name} checked out at ${visitor.check_out_time}`
     );
-
     res.redirect("/visitor/checkout");
   } catch (err) {
-    // req.flash("error", err.message);
-    // return res.render("visitor_checkout");
-    res.status(400).send(err.message);
+    console.log(err);
+
+    req.flash("error", "The visitor is not checked out");
+    res.redirect("/visitor/checkout");
   }
 });
 

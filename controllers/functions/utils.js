@@ -1,5 +1,15 @@
-function compare(a, b) {
-    return a.visitor_count > b.visitor_count;
-  }
+function compareHostsByVisitorCount(visitorA, visitorB) {
+  return visitorA.visitor_count > visitorB.visitor_count;
+}
 
-module.exports = compare;
+function getRenderData(req) {
+  return {
+    success: req.flash("success"),
+    error: req.flash("error")
+  };
+}
+
+module.exports = {
+  compareHostsByVisitorCount,
+  getRenderData
+};

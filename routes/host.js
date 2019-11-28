@@ -1,24 +1,24 @@
 const router = require("express").Router(),
-  Host = require("../models/host");
+  Host = require("../models/host"),
+  { getRenderData } = require("../controllers/functions/utils");
 
-  //Render the host registration page
+// render the host registration page
 router.get("/", (req, res) => {
-  res.render("host");
+  res.render("host", getRenderData(req));
 });
 
-//Register the host wit post request
+// register the host with post request
 router.post("/", async (req, res) => {
   try {
     const newHost = await Host.create(req.body);
-     console.log(newHost);
-    req.flash("success", "New Host, " + newHost.name + " has been registered!");
 
-    return res.render("host");
+    req.flash("success", `New Host ${newHost.name} has been registered!`);
+    res.redirect("/host");
   } catch (err) {
     console.log(err);
-    req.flash("error", err.message);
-    return res.render("host");
-    //  res.status(400).send(err.message);
+
+    req.flash("error", "New host couldn't be registered");
+    res.redirect("/host");
   }
 });
 

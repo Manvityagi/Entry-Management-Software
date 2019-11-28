@@ -2,6 +2,11 @@ const mongoose = require("mongoose"),
   Schema = mongoose.Schema,
   ObjectId = Schema.Types.ObjectId;
 
+var validatePhone = function(contact) {
+  var re = /^\d{10}$/;
+  return contact == null || re.test(contact);
+};
+
 const visitorSchema = new Schema(
   {
     name: {
@@ -12,10 +17,11 @@ const visitorSchema = new Schema(
       type: Number,
       required: false,
       unique: true,
+      validate: [validatePhone, "Please fill a valid phone number"]
     },
     email: {
       type: String,
-      unique: true,
+      unique: true
     },
     address: {
       type: String,
@@ -29,8 +35,6 @@ const visitorSchema = new Schema(
       default: "Not checked out"
     },
     host_alloted: {
-      // type: String,
-      // default: ""
       type: ObjectId,
       ref: "Host"
     },
