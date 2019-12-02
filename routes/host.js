@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
   } catch (err) {
     console.log(err);
 
-    req.flash("error", "New host couldn't be registered");
+    req.flash("error", "New host couldn't be registered -  " + err.message);
     res.redirect("/host");
   }
 });
