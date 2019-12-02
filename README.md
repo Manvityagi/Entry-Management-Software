@@ -82,9 +82,10 @@ $ node app.js
   This project has a lot to be extended: 
   1. Whenever a visitor checks-in , his/her picture can be captured for security purposes
   2. OTP verification of phone number can be set-up before allowing the visitor to enter
-  3. Dashboard can be managed according to dates 
-  4. Authentications for registering new users can be setup
-  5. Each host can be given a profile and dashboard to manage their visitors
+  3. Authentication can be made using JWT tokens or PassportJS for each host, like a signup and login system for hosts.
+  4. Dashboard can be managed according to dates 
+  5. Authentications for registering new users can be setup
+  6. Each host can be given a profile and dashboard to manage their visitors
 And many more things can be added to this project. 
 
 
