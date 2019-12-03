@@ -11,8 +11,9 @@ const Visitor = require("../models/visitor"),
   sendSMS = require("../controllers/functions/sms");
 
 // render the checkin page
-router.get("/checkin", (req, res) => {
-  res.render("visitor_checkin", getRenderData(req));
+router.get("/checkin", async (req, res) => {
+  const hosts = await Host.find({});
+  res.render("visitor_checkin", { ...getRenderData(req),  hosts: hosts} );
 });
 
 // render the checkout page
@@ -34,7 +35,6 @@ router.post("/checkin", async (req, res) => {
       return res.redirect("/visitor/checkin");
     }
     hosts.sort(compareHostsByVisitorCount);
-    const host = hosts[0];
 
     /**
      * check if visitor has visited before, else create new one
@@ -57,8 +57,20 @@ router.post("/checkin", async (req, res) => {
     /**
      * update visitor and host
      */
-    host.visitor_count += 1;
+
+    //this step will find the actual host to be alloted
+    //if not selected
+    let host;
+    if (req.body.selectpicker == "I don't hava a pre-determined host") {
+       host = hosts[0];
+    } else {
+        host = await Host.findOne({name: req.body.selectpicker});
+        console.log(host);
+    }
+
     visitor.host_alloted = host.id;
+    console.log(visitor);
+    host.visitor_count += 1;
     visitor.checked_in = true;
     visitor.check_in_time = moment(visitor.createdAt).format("lll");
 

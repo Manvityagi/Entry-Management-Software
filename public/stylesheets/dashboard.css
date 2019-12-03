@@ -78,9 +78,3 @@ h1 {
 }
 
 
-@media (max-width: 10000px) {
-  .container td:nth-child(4),
-  .container th:nth-child(4) {
-    display: none;
-  }
-}

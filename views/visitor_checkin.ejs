@@ -18,17 +18,20 @@
   </head>
   <body>
     <div class="container">
-      <% if(error && error.length > 0){ %>
-      <div class="alert alert-danger">
-        <%= error %>
-      </div>
 
-      <%= success %>
-      <% } %> <% if(success && success.length > 0){ %>
-      <div class="alert alert-success">
+      <!-- //taht error & success waali line is missong here -->
+      <% if(error && error.length > 0){ %>
+        <div class="alert alert-danger">
+          <%= error %>
+        </div>
+  
         <%= success %>
-      </div>
-      <% } %>
+        <% } %> <% if(success && success.length > 0){ %>
+        <div class="alert alert-success">
+          <%= success %>
+        </div>
+        <% } %>
+   
       <div class="row">
         <h1 style="text-align: center">Visit as a guest</h1>
         <div style="width: 30%; margin: 25px auto;">
@@ -62,6 +65,20 @@
                 name="phone"
                 placeholder="9999999999"
               />
+            </div>
+
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Select your Host</label>
+              <select
+                class="form-control selectpicker"
+                id="exampleFormControlSelect1"
+                name="selectpicker"
+              >
+                <option name="some" value="I don't hava a pre-determined host">I don't hava a pre-determined host</option>
+                <% hosts.forEach(function(host){ %>
+                <option name= <% host.name %> value=<% host.name %> > <%= host.name %> </option>
+                <% }); %>
+              </select>
             </div>
 
             <div class="form-group">
