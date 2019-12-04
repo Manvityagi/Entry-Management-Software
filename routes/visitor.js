@@ -34,7 +34,7 @@ router.post("/checkin", async (req, res) => {
       req.flash("error", "No hosts are currently available");
       return res.redirect("/visitor/checkin");
     }
-    hosts.sort(compareHostsByVisitorCount);
+    // hosts.sort(compareHostsByVisitorCount);
 
     /**
      * check if visitor has visited before, else create new one
@@ -62,12 +62,13 @@ router.post("/checkin", async (req, res) => {
     //if not selected
     let host;
     console.log("sorted",hosts);
-    if (req.body.selectpicker == "I don't hava a pre-determined host") {
-       host = hosts[0];
-    } else {
-        host = await Host.findOne({name: req.body.selectpicker});
-        console.log(host);
-    }
+    // if (req.body.selectpicker == "I don't hava a pre-determined host") {
+    //    host = hosts[0];
+    // } else {
+    //     host = await Host.findOne({name: req.body.selectpicker});
+    //     console.log(host);
+    // }
+    host = await Host.findOne({name: req.body.selectpicker});
 
     visitor.host_alloted = host.id;
     console.log(visitor);
