@@ -102,7 +102,7 @@ router.post("/checkin", async (req, res) => {
   } catch (err) {
     console.log(err);
 
-    req.flash("error", "Couldn't checkin visitor");
+    req.flash("error", "Couldn't checkin visitor - " + err.message);
     res.redirect("/visitor/checkin");
   }
 });
