@@ -22,14 +22,7 @@
 
 # 💡 Approach
 ### Alloting Hosts to Visitors
- - One of the main bottlenecks was to decide the approach to allot visitors to the hosts as two cses exist - 
-    1. The visitor already knows whom to meet
-    2. The visitor is completely new and enters as a guest and doesn't know his/her host beforehand
- - For first case , the list of hosts is shown to the visitor and he/she can select
- - For the second case, I came up with the idea to store the count of visitors, each host is attending at any time.
- - Whenever a new visitor checks-in, I sort the hosts based on the count of visitors they are attending currently, and allot the host with miniumum visitor to the new visitor i.e, visiotr is alloted the least busy host
- - When any visitor checks out, the visitor-count for the host of that visitor is decreased by one.
- - The above approach ensures optimized distrubution of visitors among hosts.
+- The available hosts are shown as a dropdown list to the visitors, visitor can select their host from the list
  ### Mailing 
 - Mails are sent by an admin email-id to the host when a visitor checks in & to the visitor when she/he checks-out using the nodemailer module
 ### SMS
