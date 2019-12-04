@@ -38,6 +38,7 @@ const app = express();
 
 // view engine setup
 app.set("view engine", "ejs");
+app.set('trust proxy', 1);
 
 // middleware setup
 app.use(methodOverride("_method"));

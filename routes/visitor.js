@@ -61,6 +61,7 @@ router.post("/checkin", async (req, res) => {
     //this step will find the actual host to be alloted
     //if not selected
     let host;
+    console.log("sorted",hosts);
     if (req.body.selectpicker == "I don't hava a pre-determined host") {
        host = hosts[0];
     } else {
